@@ -1,12 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:nav/dialog/dialog.dart';
-import 'package:nav/nav.dart';
 import 'package:save_money_app/common/common.dart';
 import 'package:save_money_app/common/extension/datetime_extension.dart';
-import 'package:save_money_app/screen/tab/calendar/f_calendar.dart';
 import 'package:save_money_app/screen/vo_write_post_result.dart';
 
-import '../common/widget/bottom_dialog_scaffold.dart';
 
 class WritePostDialog extends DialogWidget {
   WritePostDialog({super.key});

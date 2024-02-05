@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:save_money_app/common/common.dart';
-import 'package:save_money_app/common/widget/transparent_scaffold.dart';
 
 class BottomDialogScaffold extends StatelessWidget {
   final Widget body;

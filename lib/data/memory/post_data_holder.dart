@@ -2,13 +2,33 @@ import 'package:get/get_rx/src/rx_types/rx_types.dart';
 import 'package:get/get_state_manager/src/simple/get_controllers.dart';
 import 'package:get/instance_manager.dart';
 import 'package:save_money_app/data/memory/vo_post.dart';
+import 'package:save_money_app/data/post_repository.dart';
 
 import '../../screen/d_write_post.dart';
+import '../local/local_db.dart';
 
 /// 게시물 데이터를 관리하는 컨트롤러 클래스
 class PostDataHolder extends GetxController {
   /// RxList를 사용하여 게시물 목록을 관리
   final RxList<Post> postList = <Post>[].obs;
+
+  ///싱글턴
+  final PostRepository postRepository = LocalDB.instance;
+
+  ///초기화 : Local DB -> Data Holder 데이터 다 가져오기
+  @override
+  void onInit() async {
+    final getPostResult = await postRepository.getPostList();
+    getPostResult.runIfSuccess((data) {
+      postList.addAll(data);
+    });
+
+    super.onInit();
+  }
+
+  int get newId {
+    return DateTime.now().millisecondsSinceEpoch;
+  }
 
   // void changePostStatus(Post post) async {
   //   switch (Post.status) {
@@ -29,14 +49,17 @@ class PostDataHolder extends GetxController {
   void addPost() async {
     final result = await WritePostDialog().show();
     if (result != null) {
-      postList.add(Post(
-        id: DateTime.now().millisecondsSinceEpoch,
+      final newPost = Post(
+        id: newId,
         price: result.price,
         product: result.product,
         reason: result.reason,
         promise: result.promise,
         purchaseDate: result.purchaseDate,
-      ));
+      );
+
+      postList.add(newPost);
+      postRepository.addPost(newPost);
     }
   }
 
@@ -51,6 +74,7 @@ class PostDataHolder extends GetxController {
 //
   void removePost(Post post) {
     postList.remove(post);
+    postRepository.removePost(post.id);
     postList.refresh();
   }
 }

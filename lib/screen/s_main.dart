@@ -2,11 +2,8 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:save_money_app/common/extension/context_extension.dart';
 import 'package:save_money_app/data/memory/post_data_holder.dart';
-import 'package:save_money_app/screen/d_write_post.dart';
 import 'package:save_money_app/screen/tab_item.dart';
 import 'package:velocity_x/velocity_x.dart';
-
-import '../common/theme/custom_theme_holder.dart';
 import '../common/theme/theme_util.dart';
 
 class MainScreen extends StatefulWidget{

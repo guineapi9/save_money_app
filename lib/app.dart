@@ -1,14 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:go_router/go_router.dart';
 import 'package:nav/nav.dart';
 import 'package:save_money_app/common/common.dart';
 import 'package:save_money_app/data/memory/post_data_holder.dart';
-import 'package:save_money_app/screen/s_main.dart';
 import 'package:save_money_app/splash/s_splash.dart';
-
-import 'common/theme/custom_theme.dart';
-import 'common/theme/custom_theme_app.dart';
 
 class App extends StatefulWidget {
   static GlobalKey<NavigatorState> navigatorKey = GlobalKey();

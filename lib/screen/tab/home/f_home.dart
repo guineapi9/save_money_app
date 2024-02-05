@@ -1,9 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:save_money_app/common/common.dart';
-import 'package:save_money_app/screen/tab/home/w_post_item.dart';
 import 'package:save_money_app/screen/tab/home/w_post_list.dart';
-
-import '../../../data/memory/post_data_holder.dart';
 
 Widget coloredContainer(Color color) {
   return Container(

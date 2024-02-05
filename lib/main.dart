@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'package:intl/date_symbol_data_local.dart';
 import 'package:save_money_app/app.dart';
 import 'common/preference/app_preferences.dart';
 import 'common/preference/prefs.dart';
 import 'common/theme/custom_theme.dart';
 import 'common/theme/custom_theme_app.dart';
+import 'data/local/local_db.dart';
 
 void main() async {
   //Flutter 바인딩을 초기화하고 애플리케이션을 실행할 준비를 마치게 하는 역할을 한다.
@@ -13,10 +13,17 @@ void main() async {
   //final bindings = WidgetsFlutterBinding.ensureInitialized();
   WidgetsFlutterBinding.ensureInitialized();
   //FlutterNativeSplash.preserve(widgetsBinding: bindings);
+
   await initializeDateFormatting('ko_KR', null);
+  await LocalDB.init();
 
   //SavedTheme 설정을 기다리는 App Preferenece.
   await AppPreferences.init();
+
+  //save theme
+  CustomThemeApp.init(saveThemeFunction: (theme) {
+    Prefs.appTheme.set(theme); // 또는 Prefs.appTheme(theme) 이렇게 저장도 가능
+  });
 
   runApp(CustomThemeApp(
       defaultTheme: CustomTheme.light,

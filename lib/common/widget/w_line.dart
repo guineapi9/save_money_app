@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:save_money_app/common/common.dart';
 
 class Line extends StatelessWidget {
   //final Color? color;

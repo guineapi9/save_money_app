@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import '../app_colors.dart';
 export 'dart:ui' hide TextDirection;
 
 typedef ColorProvider = Color Function();
