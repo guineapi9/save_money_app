@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:save_money_app/common/extension/context_extension.dart';
+import 'package:save_money_app/data/memory/post_data_holder.dart';
 import 'package:save_money_app/screen/d_write_post.dart';
 import 'package:save_money_app/screen/tab_item.dart';
 import 'package:velocity_x/velocity_x.dart';
@@ -8,14 +9,14 @@ import 'package:velocity_x/velocity_x.dart';
 import '../common/theme/custom_theme_holder.dart';
 import '../common/theme/theme_util.dart';
 
-class MainScreen extends StatefulWidget {
+class MainScreen extends StatefulWidget{
   const MainScreen({Key? key}) : super(key: key);
 
   @override
   State<MainScreen> createState() => _MainScreenState();
 }
 
-class _MainScreenState extends State<MainScreen> {
+class _MainScreenState extends State<MainScreen> with PostDataProvider{
   int _index = 0;
 
   @override
@@ -49,7 +50,8 @@ class _MainScreenState extends State<MainScreen> {
               shape: const CircleBorder(),
               elevation: 5,
               onPressed: () {
-                WritePostDialog().show();
+                //데이터 추가
+                postData.addPost();
               },
               tooltip: 'Increment',
               child: const Icon(Icons.edit),

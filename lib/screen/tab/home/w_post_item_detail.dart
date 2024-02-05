@@ -1,16 +1,21 @@
 import 'package:flutter/material.dart';
 
 import '../../../common/common.dart';
+import '../../../data/memory/vo_post.dart';
 
 class PostItemDetail extends StatelessWidget {
-  const PostItemDetail({super.key});
+  final Post post;
+
+  const PostItemDetail(this.post, {super.key});
 
   @override
   Widget build(BuildContext context) {
     return Column(
       children: [
         const Height(10),
-        const MySeparator(color: Colors.grey,),
+        const MySeparator(
+          color: Colors.grey,
+        ),
         const Height(10),
         Row(children: [
           '구매한 이유'.text.size(16).bold.make(),
@@ -18,14 +23,16 @@ class PostItemDetail extends StatelessWidget {
         const Height(5),
         Row(children: [
           Expanded(
-            child: '아이패드병 걸려서'
-                .text
+            ///구매한 이유
+            child: post.reason.text
                 .color(context.colorScheme.onPrimaryContainer)
                 .make(),
           ),
         ]),
         const Height(10),
-        const MySeparator(color: Colors.grey,),
+        const MySeparator(
+          color: Colors.grey,
+        ),
         const Height(10),
 
         // 대체품
@@ -42,7 +49,9 @@ class PostItemDetail extends StatelessWidget {
           ),
         ]),
         const Height(10),
-        const MySeparator(color: Colors.grey,),
+        const MySeparator(
+          color: Colors.grey,
+        ),
         const Height(10),
 
         //다짐
@@ -52,8 +61,8 @@ class PostItemDetail extends StatelessWidget {
         const Height(5),
         Row(children: [
           Expanded(
-            child: '다시는 안사겠습니다 ㅠㅠ'
-                .text
+            ///다짐
+            child: post.promise.text
                 .color(context.colorScheme.onPrimaryContainer)
                 .make(),
           ),

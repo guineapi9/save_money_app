@@ -1,20 +1,21 @@
 import 'package:flutter/material.dart';
-import 'package:save_money_app/common/extension/context_extension.dart';
+import 'package:save_money_app/common/extension/datetime_extension.dart';
 import 'package:save_money_app/common/widget/animated_height_collapse.dart';
 import 'package:save_money_app/screen/tab/home/w_post_item_detail.dart';
-import 'package:velocity_x/velocity_x.dart';
-
 import '../../../common/common.dart';
-import '../../../common/widget/w_dottedline.dart';
+import '../../../data/memory/post_data_holder.dart';
+import '../../../data/memory/vo_post.dart';
 
-class PostItem extends StatefulWidget {
-  const PostItem({super.key});
+class PostItem extends StatefulWidget{
+  final Post post;
+
+  PostItem(this.post, {super.key});
 
   @override
   State<PostItem> createState() => _PostItemState();
 }
 
-class _PostItemState extends State<PostItem> {
+class _PostItemState extends State<PostItem> with PostDataProvider{
   final duration = const Duration(milliseconds: 300);
   bool isExpanded = false;
   static const iconSize = 12.0;
@@ -32,14 +33,13 @@ class _PostItemState extends State<PostItem> {
           child: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
-              //제목과 날짜
+              ///제품과 구매일자
               Row(crossAxisAlignment: CrossAxisAlignment.center, children: [
-                Expanded(child: '아이패드 미니 6 256G'.text.size(18).bold.make()),
+                Expanded(child: widget.post.product.text.size(18).bold.make()),
                 const Width(10),
                 Column(
                   children: [
-                    '2023/11/10'
-                        .text
+                    widget.post.purchaseDate.formattedDate.text
                         .size(12)
                         .color(context.appColors.text2)
                         .make(),
@@ -50,15 +50,15 @@ class _PostItemState extends State<PostItem> {
               const Line(),
               const Height(10),
 
-              //제목과 날짜
+              ///가격
               Row(children: [
                 Expanded(
-                    child: '500,000원'
+                    child: widget.post.price
+                        .toWon()
                         .text
                         .color(context.appColors.text)
                         .size(16)
-                        .make()
-                    ),
+                        .make()),
                 GestureDetector(
                   onTap: () {
                     setState(() {
@@ -86,17 +86,22 @@ class _PostItemState extends State<PostItem> {
               AnimatedHeightCollapse(
                   visible: isExpanded,
                   duration: duration,
-                  child: const PostItemDetail()),
+                  child: PostItemDetail(widget.post)),
             ],
           ).pSymmetric(v: 30, h: 30),
         ),
-        Container(
-          width: 20,
-          height: 20,
-          decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(10),
-              color: context.colorScheme.background),
-        ).pOnly(right: 10, top: 10),
+        ///삭제 버튼
+        GestureDetector(
+          onTap: (){
+            postData.removePost(widget.post);
+          },
+          child: SizedBox(
+            width: 20,
+            height: 20,
+            child: Icon(Icons.remove_circle,
+                color: context.appColors.deleteButton),
+          ).pOnly(right: 10, top: 10),
+        ),
       ],
     ).pSymmetric(v: 10, h: 30);
   }

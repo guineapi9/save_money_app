@@ -4,6 +4,7 @@ import 'package:nav/nav.dart';
 import 'package:save_money_app/common/common.dart';
 import 'package:save_money_app/common/extension/datetime_extension.dart';
 import 'package:save_money_app/screen/tab/calendar/f_calendar.dart';
+import 'package:save_money_app/screen/vo_write_post_result.dart';
 
 import '../common/widget/bottom_dialog_scaffold.dart';
 
@@ -27,10 +28,12 @@ class _WritePostDialogState extends DialogState<WritePostDialog> {
       backgroundColor: Colors.transparent,
       body: SingleChildScrollView(
         child: Container(
+          alignment: Alignment.center,
           decoration: BoxDecoration(
             color: context.backgroundColor,
           ),
           child: Column(
+            mainAxisSize: MainAxisSize.min,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
 
@@ -80,13 +83,19 @@ class _WritePostDialogState extends DialogState<WritePostDialog> {
                       }),
                   const Spacer(),
                   PostButton(text: '저장', onPressed: () {
-                    widget.hide();
+                    widget.hide(WritePostResult(
+                      product: productController.text,
+                      purchaseDate: _selectedDate,
+                      price: IntExt.safeParse(priceController.text) ?? 0,
+                      reason: reasonController.text,
+                      promise: promiseController.text,
+                    ));
                   }),
                 ],
               ),
             ],
           ).p(20),
-        ).p(30),
+        ).pOnly(top: 100, bottom: 10, right: 30, left: 30),
       ),
     );
   }

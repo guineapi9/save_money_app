@@ -18,5 +18,5 @@ class Post {
   DateTime? modifyTime;
   DateTime purchaseDate;
   //String replacement; // 대체품
-  double price; // 가격
+  int price; // 가격
 }

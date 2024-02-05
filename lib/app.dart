@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:go_router/go_router.dart';
 import 'package:nav/nav.dart';
 import 'package:save_money_app/common/common.dart';
+import 'package:save_money_app/data/memory/post_data_holder.dart';
 import 'package:save_money_app/screen/s_main.dart';
 import 'package:save_money_app/splash/s_splash.dart';
 
@@ -17,10 +19,18 @@ class App extends StatefulWidget {
   State<App> createState() => _AppState();
 }
 
-class _AppState extends State<App>  with Nav {
+class _AppState extends State<App>  with Nav, WidgetsBindingObserver {
   // This widget is the root of your application.
   @override
   GlobalKey<NavigatorState> get navigatorKey => App.navigatorKey;
+
+  @override
+  void initState() {
+    super.initState();
+    ///메서드로 클래스의 인스턴스를 등록
+    Get.put(PostDataHolder());
+    WidgetsBinding.instance.addObserver(this);
+  }
 
 
   @override

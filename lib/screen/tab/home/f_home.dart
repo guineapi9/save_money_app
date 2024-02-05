@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:save_money_app/common/common.dart';
 import 'package:save_money_app/screen/tab/home/w_post_item.dart';
+import 'package:save_money_app/screen/tab/home/w_post_list.dart';
+
+import '../../../data/memory/post_data_holder.dart';
 
 Widget coloredContainer(Color color) {
   return Container(
@@ -41,20 +44,11 @@ class HomeFragment extends StatefulWidget {
 class _HomeFragmentState extends State<HomeFragment> {
   @override
   Widget build(BuildContext context) {
-    return const SingleChildScrollView(
-        child: Column(
-      mainAxisAlignment: MainAxisAlignment.start,
+    return Column(
+      //mainAxisAlignment: MainAxisAlignment.start,
       children: [
-        PostItem(),
-        PostItem(),
-        PostItem(),
-        PostItem(),
-        PostItem(),
-        PostItem(),
-        PostItem(),
-        PostItem(),
-        Height(80),
+        PostList(),
       ],
-    ));
+    );
   }
 }
