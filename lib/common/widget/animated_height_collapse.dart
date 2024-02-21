@@ -3,13 +3,13 @@ import 'package:flutter/material.dart';
 class AnimatedHeightCollapse extends StatelessWidget {
   final bool visible;
   final Widget child;
-  final Duration duration;
+  Duration duration;
 
-  const AnimatedHeightCollapse({
+  AnimatedHeightCollapse({
     super.key,
     required this.visible,
     required this.child,
-    required this.duration,
+    this.duration = const Duration(milliseconds: 300)
   });
 
   @override

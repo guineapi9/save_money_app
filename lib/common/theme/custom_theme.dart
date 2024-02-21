@@ -48,7 +48,7 @@ ThemeData lightTheme = ThemeData(
     //colorScheme: ColorScheme.fromSeed(seedColor: CustomTheme.light.appColors.seedColor)
     colorScheme: ColorScheme.fromSeed(
       ///사용 하는 색깔
-      background: Colors.grey[100]!, //배경색
+      background: Colors.grey[200]!, //배경색
       surface: Colors.grey[50]!, //컨테이너 배경색
 
       primary: Colors.grey[700]!, //첫번째 진한 컬러

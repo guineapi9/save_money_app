@@ -9,6 +9,7 @@ part of 'vo_post.dart';
 Post _$PostFromJson(Map<String, dynamic> json) => Post(
       id: json['id'] as int,
       product: json['product'] as String,
+      isNecessary: json['isNecessary'] as bool,
       reason: json['reason'] as String,
       promise: json['promise'] as String,
       purchaseDate: DateTime.parse(json['purchaseDate'] as String),
@@ -25,5 +26,6 @@ Map<String, dynamic> _$PostToJson(Post instance) => <String, dynamic>{
       'promise': instance.promise,
       'createdTime': instance.createdTime.toIso8601String(),
       'purchaseDate': instance.purchaseDate.toIso8601String(),
+      'isNecessary': instance.isNecessary,
       'price': instance.price,
     };

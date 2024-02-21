@@ -4,6 +4,8 @@ import 'package:save_money_app/common/common.dart';
 import 'package:save_money_app/common/extension/datetime_extension.dart';
 import 'package:save_money_app/screen/vo_write_post_result.dart';
 
+import '../common/widget/w_custom_button.dart';
+import '../common/widget/w_vertical_line.dart';
 
 class WritePostDialog extends DialogWidget {
   WritePostDialog({super.key});
@@ -18,6 +20,7 @@ class _WritePostDialogState extends DialogState<WritePostDialog> {
   final priceController = TextEditingController();
   final reasonController = TextEditingController();
   final promiseController = TextEditingController();
+  bool isNecessary = false;
 
   @override
   Widget build(BuildContext context) {
@@ -33,7 +36,6 @@ class _WritePostDialogState extends DialogState<WritePostDialog> {
             mainAxisSize: MainAxisSize.min,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-
               /// 제품(서비스)명
               "제품(서비스)명".text.color(context.appColors.text).bold.make(),
               _TextEditor(productController, hintText: "구매한 제품 혹은 서비스"),
@@ -43,15 +45,31 @@ class _WritePostDialogState extends DialogState<WritePostDialog> {
               "구매 일자".text.color(context.appColors.text).bold.make(),
               Row(
                 children: [
-                  Text(_selectedDate.formattedDate, style: context.textTheme.bodyMedium,),
+                  Text(
+                    _selectedDate.formattedDate,
+                    style: context.textTheme.bodyMedium,
+                  ),
                   IconButton(
                     onPressed: _selectDate,
                     icon: const Icon(Icons.calendar_month),
                   ),
                 ],
               ),
-              const Height(20),
+              const Height(10),
 
+              ///지출 필요 여부
+              "필수".text.color(context.appColors.text).bold.make(),
+              Row(
+                children: [
+                  Checkbox(value: isNecessary,onChanged: (bool? value) {
+                    setState(() {
+                      isNecessary = !isNecessary;
+                    });
+                  }),
+                  "꼭 필요한 지출입니다.".text.color(context.appColors.text).make(),
+                ],
+              ),
+              const Height(10),
               ///가격
               "가격".text.color(context.appColors.text).bold.make(),
               _TextEditor(priceController,
@@ -79,15 +97,18 @@ class _WritePostDialogState extends DialogState<WritePostDialog> {
                         widget.hide();
                       }),
                   const Spacer(),
-                  PostButton(text: '저장', onPressed: () {
-                    widget.hide(WritePostResult(
-                      product: productController.text,
-                      purchaseDate: _selectedDate,
-                      price: IntExt.safeParse(priceController.text) ?? 0,
-                      reason: reasonController.text,
-                      promise: promiseController.text,
-                    ));
-                  }),
+                  PostButton(
+                      text: '저장',
+                      onPressed: () {
+                        widget.hide(WritePostResult(
+                          product: productController.text,
+                          purchaseDate: _selectedDate,
+                          price: IntExt.safeParse(priceController.text) ?? 0,
+                          reason: reasonController.text,
+                          promise: promiseController.text,
+                          isNecessary: isNecessary,
+                        ));
+                      }),
                 ],
               ),
             ],
@@ -102,43 +123,13 @@ class _WritePostDialogState extends DialogState<WritePostDialog> {
       context: context,
       initialDate: _selectedDate, //오늘
       firstDate: DateTime.now().subtract(const Duration(days: 365)),
-      lastDate: DateTime.now().add(const Duration(days: 365 * 10)),
+      lastDate: DateTime.now().add(const Duration(days: 365)),
     );
     if (date != null) {
       setState(() {
         _selectedDate = date;
       });
     }
-  }
-}
-
-class PostButton extends StatelessWidget {
-  const PostButton({
-    Key? key,
-    this.backgroundColor,
-    this.foregroundColor,
-    required this.text,
-    required this.onPressed,
-  }) : super(key: key);
-
-  final VoidCallback onPressed;
-  final Color? backgroundColor;
-  final Color? foregroundColor;
-  final String text;
-
-  @override
-  Widget build(BuildContext context) {
-    return ElevatedButton(
-      onPressed: onPressed,
-      style: ElevatedButton.styleFrom(
-        backgroundColor: backgroundColor ?? context.colorScheme.primary,
-        foregroundColor: foregroundColor ?? context.colorScheme.onPrimary,
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(20.0), // BorderRadius 설정
-        ),
-      ),
-      child: Text(text),
-    );
   }
 }
 
@@ -167,11 +158,7 @@ class _TextEditor extends StatelessWidget {
           borderSide: BorderSide(color: context.colorScheme.primaryContainer),
         ),
         hintText: hintText,
-        hintStyle:
-        TextStyle(
-          color: context.appColors.text2
-        ),
-
+        hintStyle: TextStyle(color: context.appColors.text2),
       ),
       controller: productController,
     );

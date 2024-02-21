@@ -1,9 +1,9 @@
 import 'package:get/get_rx/src/rx_types/rx_types.dart';
 import 'package:get/get_state_manager/src/simple/get_controllers.dart';
 import 'package:get/instance_manager.dart';
+import 'package:save_money_app/common/common.dart';
 import 'package:save_money_app/data/memory/vo_post.dart';
 import 'package:save_money_app/data/post_repository.dart';
-
 import '../../screen/d_write_post.dart';
 import '../local/local_db.dart';
 
@@ -30,21 +30,6 @@ class PostDataHolder extends GetxController {
     return DateTime.now().millisecondsSinceEpoch;
   }
 
-  // void changePostStatus(Post post) async {
-  //   switch (Post.status) {
-  //     case PostStatus.incomplete:
-  //       Post.status = PostStatus.ongoing;
-  //     case PostStatus.ongoing:
-  //       Post.status = PostStatus.complete;
-  //     case PostStatus.complete:
-  //       final result = await ConfirmDialog('정말로 처음 상태로 변경하시겠어요?').show();
-  //       result?.runIfSuccess((data) {
-  //         Post.status = PostStatus.incomplete;
-  //       });
-  //   }
-  //   postList.refresh();
-  // }
-
   ///새로운 게시물을 추가하는 다이얼로그를 띄우는 메서드
   void addPost() async {
     final result = await WritePostDialog().show();
@@ -56,6 +41,7 @@ class PostDataHolder extends GetxController {
         reason: result.reason,
         promise: result.promise,
         purchaseDate: result.purchaseDate,
+        isNecessary: result.isNecessary,
       );
 
       postList.add(newPost);
@@ -77,6 +63,48 @@ class PostDataHolder extends GetxController {
     postRepository.removePost(post.id);
     postList.refresh();
   }
+
+  ///날짜별로 이벤트를 분리하는 함수
+  ///초기화할때도 30일 전체를 순회하며, 새로운 날짜를 클릭할 때마다 또 30일을 순회한다.
+  List<Post> getEventsForDay(DateTime day) {
+    final dayPostList = postList
+        .where((element) =>
+            element.purchaseDate.formattedDate == day.formattedDate)
+        .toList();
+
+    return dayPostList;
+  }
+
+  ///현재 월의 총 금액을 반환
+  int sumForMonth(DateTime day) {
+    //focusedDay와 현재 연,월이 같은 데이터만 모으기
+    final monthPostList = postList
+        .where((element) =>
+            element.purchaseDate.month == day.month &&
+            element.purchaseDate.year == day.year)
+        .toList();
+
+    //해당 리스트에서 금액만 sum해서 반환
+    return monthPostList.fold(0, (sum, post) => sum + post.price);
+  }
+
+  ///현재 월 총 금액 중 불필요한 지출 금액을 반환
+  int notNecessarySumForMonth(DateTime day) {
+    //focusedDay와 현재 연,월이 같은 데이터만 모으기
+    final notNecessaryMonthPostList = postList
+        .where((element) =>
+    element.purchaseDate.month == day.month &&
+        element.purchaseDate.year == day.year && element.isNecessary == false)
+        .toList();
+
+    //해당 리스트에서 금액만 sum해서 반환
+    return notNecessaryMonthPostList.fold(0, (sum, post) => sum + post.price);
+  }
+
+// ///선택한 날짜의 현재 금액을 반환
+// int calculateSumPrice(DateTime day) {
+//   return getEventsForDay(day).fold(0, (sum, post) => sum + post.price);
+// }
 }
 
 /// 상태 관리에 사용될 mixin

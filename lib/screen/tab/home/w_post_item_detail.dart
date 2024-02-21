@@ -19,31 +19,14 @@ class PostItemDetail extends StatelessWidget {
         const Height(10),
         Row(children: [
           '구매한 이유'.text.size(16).bold.make(),
+          const Spacer(),
+          post.isNecessary ? '필요'.text.size(16).bold.make() : '불필요'.text.size(16).color(context.appColors.redBlue).bold.make(),
         ]),
         const Height(5),
         Row(children: [
           Expanded(
             ///구매한 이유
             child: post.reason.text
-                .color(context.colorScheme.onPrimaryContainer)
-                .make(),
-          ),
-        ]),
-        const Height(10),
-        const MySeparator(
-          color: Colors.grey,
-        ),
-        const Height(10),
-
-        // 대체품
-        Row(children: [
-          '대체품'.text.bold.make(),
-        ]),
-        const Height(5),
-        Row(children: [
-          Expanded(
-            child: '없는것 같은데'
-                .text
                 .color(context.colorScheme.onPrimaryContainer)
                 .make(),
           ),

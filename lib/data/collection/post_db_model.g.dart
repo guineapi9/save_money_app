@@ -22,28 +22,33 @@ const PostDbModelSchema = CollectionSchema(
       name: r'createdTime',
       type: IsarType.dateTime,
     ),
-    r'price': PropertySchema(
+    r'isNecessary': PropertySchema(
       id: 1,
+      name: r'isNecessary',
+      type: IsarType.bool,
+    ),
+    r'price': PropertySchema(
+      id: 2,
       name: r'price',
       type: IsarType.long,
     ),
     r'product': PropertySchema(
-      id: 2,
+      id: 3,
       name: r'product',
       type: IsarType.string,
     ),
     r'promise': PropertySchema(
-      id: 3,
+      id: 4,
       name: r'promise',
       type: IsarType.string,
     ),
     r'purchaseDate': PropertySchema(
-      id: 4,
+      id: 5,
       name: r'purchaseDate',
       type: IsarType.dateTime,
     ),
     r'reason': PropertySchema(
-      id: 5,
+      id: 6,
       name: r'reason',
       type: IsarType.string,
     )
@@ -121,11 +126,12 @@ void _postDbModelSerialize(
   Map<Type, List<int>> allOffsets,
 ) {
   writer.writeDateTime(offsets[0], object.createdTime);
-  writer.writeLong(offsets[1], object.price);
-  writer.writeString(offsets[2], object.product);
-  writer.writeString(offsets[3], object.promise);
-  writer.writeDateTime(offsets[4], object.purchaseDate);
-  writer.writeString(offsets[5], object.reason);
+  writer.writeBool(offsets[1], object.isNecessary);
+  writer.writeLong(offsets[2], object.price);
+  writer.writeString(offsets[3], object.product);
+  writer.writeString(offsets[4], object.promise);
+  writer.writeDateTime(offsets[5], object.purchaseDate);
+  writer.writeString(offsets[6], object.reason);
 }
 
 PostDbModel _postDbModelDeserialize(
@@ -137,11 +143,12 @@ PostDbModel _postDbModelDeserialize(
   final object = PostDbModel(
     createdTime: reader.readDateTime(offsets[0]),
     id: id,
-    price: reader.readLong(offsets[1]),
-    product: reader.readString(offsets[2]),
-    promise: reader.readString(offsets[3]),
-    purchaseDate: reader.readDateTime(offsets[4]),
-    reason: reader.readString(offsets[5]),
+    isNecessary: reader.readBool(offsets[1]),
+    price: reader.readLong(offsets[2]),
+    product: reader.readString(offsets[3]),
+    promise: reader.readString(offsets[4]),
+    purchaseDate: reader.readDateTime(offsets[5]),
+    reason: reader.readString(offsets[6]),
   );
   return object;
 }
@@ -156,14 +163,16 @@ P _postDbModelDeserializeProp<P>(
     case 0:
       return (reader.readDateTime(offset)) as P;
     case 1:
-      return (reader.readLong(offset)) as P;
+      return (reader.readBool(offset)) as P;
     case 2:
-      return (reader.readString(offset)) as P;
+      return (reader.readLong(offset)) as P;
     case 3:
       return (reader.readString(offset)) as P;
     case 4:
-      return (reader.readDateTime(offset)) as P;
+      return (reader.readString(offset)) as P;
     case 5:
+      return (reader.readDateTime(offset)) as P;
+    case 6:
       return (reader.readString(offset)) as P;
     default:
       throw IsarError('Unknown property with id $propertyId');
@@ -714,6 +723,16 @@ extension PostDbModelQueryFilter
     });
   }
 
+  QueryBuilder<PostDbModel, PostDbModel, QAfterFilterCondition>
+      isNecessaryEqualTo(bool value) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.equalTo(
+        property: r'isNecessary',
+        value: value,
+      ));
+    });
+  }
+
   QueryBuilder<PostDbModel, PostDbModel, QAfterFilterCondition> priceEqualTo(
       int value) {
     return QueryBuilder.apply(this, (query) {
@@ -1247,6 +1266,18 @@ extension PostDbModelQuerySortBy
     });
   }
 
+  QueryBuilder<PostDbModel, PostDbModel, QAfterSortBy> sortByIsNecessary() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'isNecessary', Sort.asc);
+    });
+  }
+
+  QueryBuilder<PostDbModel, PostDbModel, QAfterSortBy> sortByIsNecessaryDesc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'isNecessary', Sort.desc);
+    });
+  }
+
   QueryBuilder<PostDbModel, PostDbModel, QAfterSortBy> sortByPrice() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'price', Sort.asc);
@@ -1335,6 +1366,18 @@ extension PostDbModelQuerySortThenBy
     });
   }
 
+  QueryBuilder<PostDbModel, PostDbModel, QAfterSortBy> thenByIsNecessary() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'isNecessary', Sort.asc);
+    });
+  }
+
+  QueryBuilder<PostDbModel, PostDbModel, QAfterSortBy> thenByIsNecessaryDesc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'isNecessary', Sort.desc);
+    });
+  }
+
   QueryBuilder<PostDbModel, PostDbModel, QAfterSortBy> thenByPrice() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'price', Sort.asc);
@@ -1405,6 +1448,12 @@ extension PostDbModelQueryWhereDistinct
     });
   }
 
+  QueryBuilder<PostDbModel, PostDbModel, QDistinct> distinctByIsNecessary() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addDistinctBy(r'isNecessary');
+    });
+  }
+
   QueryBuilder<PostDbModel, PostDbModel, QDistinct> distinctByPrice() {
     return QueryBuilder.apply(this, (query) {
       return query.addDistinctBy(r'price');
@@ -1450,6 +1499,12 @@ extension PostDbModelQueryProperty
   QueryBuilder<PostDbModel, DateTime, QQueryOperations> createdTimeProperty() {
     return QueryBuilder.apply(this, (query) {
       return query.addPropertyName(r'createdTime');
+    });
+  }
+
+  QueryBuilder<PostDbModel, bool, QQueryOperations> isNecessaryProperty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addPropertyName(r'isNecessary');
     });
   }
 

@@ -2,8 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:nav/nav.dart';
 import 'package:save_money_app/common/common.dart';
+import 'package:save_money_app/data/memory/delete_button_holder.dart';
 import 'package:save_money_app/data/memory/post_data_holder.dart';
-import 'package:save_money_app/splash/s_splash.dart';
+import 'package:save_money_app/screen/s_main.dart';
 
 class App extends StatefulWidget {
   static GlobalKey<NavigatorState> navigatorKey = GlobalKey();
@@ -24,6 +25,7 @@ class _AppState extends State<App>  with Nav, WidgetsBindingObserver {
     super.initState();
     ///메서드로 클래스의 인스턴스를 등록
     Get.put(PostDataHolder());
+    Get.put(DeleteButtonHolder());
     WidgetsBinding.instance.addObserver(this);
   }
 
@@ -38,7 +40,7 @@ class _AppState extends State<App>  with Nav, WidgetsBindingObserver {
       //darkTheme: darkTheme,
       navigatorKey: navigatorKey, //go_router에서는 미사용
       title: 'Flutter Demo',
-      home: const SplashScreen(),
+      home: const MainScreen(),
     );
   }
 }

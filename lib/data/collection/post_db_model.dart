@@ -19,6 +19,8 @@ class PostDbModel {
 
   DateTime purchaseDate;
 
+  bool isNecessary;
+
   String reason;
 
   String promise;
@@ -27,6 +29,7 @@ class PostDbModel {
     required this.id,
     required this.createdTime,
     required this.product,
+    required this.isNecessary,
     required this.price,
     required this.purchaseDate,
     required this.reason,

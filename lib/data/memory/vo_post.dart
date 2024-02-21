@@ -7,6 +7,7 @@ class Post {
   Post({
     required this.id,
     required this.product,
+    required this.isNecessary,
     required this.reason,
     required this.promise,
     required this.purchaseDate,
@@ -14,7 +15,7 @@ class Post {
     required this.price,
     DateTime? createdTime,
   }) : createdTime = DateTime.now();
-  //modifyTime = null; // 초기값으로 null 설정
+  // 초기값으로 null 설정
 
   int id;
   String product;
@@ -23,7 +24,7 @@ class Post {
   final DateTime createdTime;
   //DateTime? modifyTime;
   DateTime purchaseDate;
-  //String replacement; // 대체품
+  bool isNecessary; // 대체품
   int price; // 가격
 
   factory Post.fromJson(Map<String, Object?> json) => _$PostFromJson(json);
@@ -38,7 +39,7 @@ class Post {
       purchaseDate: post.purchaseDate,
       price: post.price,
       reason: post.reason,
-      promise: post.promise,
+      promise: post.promise, isNecessary: post.isNecessary,
     );
   }
 
@@ -49,5 +50,7 @@ class Post {
       price: price,
       purchaseDate: purchaseDate,
       reason: reason,
-      promise: promise);
+      promise: promise,
+    isNecessary: isNecessary
+  );
 }

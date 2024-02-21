@@ -12,7 +12,9 @@ abstract class AbstractThemeColors {
 
   Color get seedColor => const Color(0xff26ff8c);
 
-  Color get deleteButton => Colors.red.shade300;
+  ///라이트모드 => 레드, 다크모드 => 블루
+  ///DeleteButton, 다크모드 변경, 기타 색상 강조시 사용
+  Color get redBlue => Colors.red.shade300;
 
   // Color get veryBrightGrey => AppColors.brightGrey;
   //

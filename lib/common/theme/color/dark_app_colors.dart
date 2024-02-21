@@ -16,7 +16,7 @@ class DarkAppColors extends AbstractThemeColors {
   Color get seedColor => AppColors.mediumBlue;
 
   @override
-  Color get deleteButton => Colors.blue.shade300;
+  Color get redBlue => Colors.blue.shade300;
 
   // @override
   // Color get activate => Colors.white;
